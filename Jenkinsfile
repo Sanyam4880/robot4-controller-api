@@ -30,11 +30,18 @@ pipeline {
                 bat 'dotnet list package --vulnerable'
             }
         }
+
+        stage('Deploy') {
+            steps {
+                echo 'Building Docker image for test deployment...'
+                bat 'docker build -t robot4-controller-api:test .'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build, Test, Code Quality and Security stages completed successfully!'
+            echo 'Build, Test, Code Quality, Security and Deploy stages completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
