@@ -9,5 +9,21 @@ pipeline {
                 bat 'dotnet build'
             }
         }
+
+        stage('Test') {
+            steps {
+                echo 'Running tests...'
+                bat 'dotnet test'
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and Test Successful!'
+        }
+        failure {
+            echo 'Build Failed!'
+        }
     }
 }
