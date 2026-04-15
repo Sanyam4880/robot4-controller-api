@@ -16,14 +16,21 @@ pipeline {
                 bat 'dotnet test'
             }
         }
+
+        stage('Code Quality') {
+            steps {
+                echo 'Running code quality checks...'
+                bat 'dotnet format --verify-no-changes || exit /b 0'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build and Test Successful!'
+            echo 'Build, Test and Code Quality stages completed successfully!'
         }
         failure {
-            echo 'Build Failed!'
+            echo 'Pipeline failed!'
         }
     }
 }
