@@ -33,8 +33,8 @@ pipeline {
 
         stage('Deploy') {
             steps {
-                echo 'Building Docker image for test deployment...'
-                bat 'docker build -t robot4-controller-api:test .'
+                echo 'Publishing application for test deployment...'
+                bat 'dotnet publish -c Release -o publish'
             }
         }
     }
