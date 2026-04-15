@@ -23,11 +23,18 @@ pipeline {
                 bat 'dotnet format --verify-no-changes'
             }
         }
+
+        stage('Security') {
+            steps {
+                echo 'Running security scan...'
+                bat 'dotnet list package --vulnerable'
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build, Test and Code Quality stages completed successfully!'
+            echo 'Build, Test, Code Quality and Security stages completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
