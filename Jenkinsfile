@@ -20,7 +20,7 @@ pipeline {
         stage('Code Quality') {
             steps {
                 echo 'Running code quality checks...'
-                bat 'dotnet format --verify-no-changes || exit /b 0'
+                bat 'dotnet format --verify-no-changes'
             }
         }
     }
