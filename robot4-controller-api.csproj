@@ -8,6 +8,12 @@
   </PropertyGroup>
 
   <ItemGroup>
+  <Compile Remove="robot4-controller-api.Tests\**\*.cs" />
+  <EmbeddedResource Remove="robot4-controller-api.Tests\**\*" />
+  <None Remove="robot4-controller-api.Tests\**\*" />
+</ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="FastMember.Signed" Version="1.5.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.14" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="9.0.0">

@@ -20,11 +20,18 @@ pipeline {
             }
         }
 
+        stage('Test') {
+            steps {
+                echo 'Running automated tests using xUnit...'
+                bat 'dotnet test'
+            }
+        }
+
     }
 
     post {
         success {
-            echo 'Build stage completed successfully!'
+            echo 'Build and Test stages completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
