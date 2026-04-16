@@ -13,7 +13,7 @@ pipeline {
                 bat 'dotnet restore'
 
                 echo 'Building solution...'
-                bat 'dotnet build SIT31314.2C.sln -c Release'
+                bat 'dotnet build robot4-controller-api.sln -c Release'
 
                 echo 'Publishing API artifact...'
                 bat 'if exist build_artifact rmdir /S /Q build_artifact'
@@ -26,20 +26,17 @@ pipeline {
 
         stage('Test') {
             steps {
-                echo 'Running tests on solution (NOT artifact)...'
-                
-            
-                bat 'dotnet test SIT31314.2C.sln --no-build'
+                echo 'Running tests on solution...'
+                bat 'dotnet test robot4-controller-api.sln --no-build'
             }
         }
 
         stage('Code Quality') {
             steps {
                 echo 'Running SonarCloud analysis...'
-
                 bat """
                 dotnet sonarscanner begin /k:"dc73124029ab9bc22fd8a3d32a219cdf9c72808e" /o:"YOUR_ORG_NAME" /d:sonar.login=%SONAR_TOKEN%
-                dotnet build SIT31314.2C.sln
+                dotnet build robot4-controller-api.sln
                 dotnet sonarscanner end /d:sonar.login=%SONAR_TOKEN%
                 """
             }
