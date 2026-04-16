@@ -1,50 +1,16 @@
-pipeline {
-    agent any
+stage('Build') {
+    steps {
+        echo 'Restoring dependencies...'
+        bat 'dotnet restore'
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building the project...'
-                bat 'dotnet restore'
-                bat 'dotnet build'
-            }
-        }
+        echo 'Building project in Release mode...'
+        bat 'dotnet build -c Release --no-restore'
 
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                bat 'dotnet test'
-            }
-        }
+        echo 'Creating deployable build artifact...'
+        bat 'if exist build_artifact rmdir /S /Q build_artifact'
+        bat 'dotnet publish -c Release -o build_artifact --no-build'
 
-        stage('Code Quality') {
-            steps {
-                echo 'Running code quality checks...'
-                bat 'dotnet format --verify-no-changes'
-            }
-        }
-
-        stage('Security') {
-            steps {
-                echo 'Running security scan...'
-                bat 'dotnet list package --vulnerable'
-            }
-        }
-
-        stage('Deploy') {
-            steps {
-                echo 'Publishing application for test deployment...'
-                bat 'dotnet publish -c Release -o publish'
-            }
-        }
-    }
-
-    post {
-        success {
-            echo 'Build, Test, Code Quality, Security and Deploy stages completed successfully!'
-        }
-        failure {
-            echo 'Pipeline failed!'
-        }
+        echo 'Showing generated build artifact files...'
+        bat 'dir build_artifact'
     }
 }
