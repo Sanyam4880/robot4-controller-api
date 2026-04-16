@@ -12,44 +12,46 @@ pipeline {
                 echo 'Restoring dependencies...'
                 bat 'dotnet restore'
 
-                echo 'Building project in Release mode...'
-                bat 'dotnet build -c Release --no-restore'
+                echo 'Building solution...'
+                bat 'dotnet build SIT31314.2C.sln -c Release'
 
-                echo 'Creating deployable build artifact for main API project only...'
+                echo 'Publishing API artifact...'
                 bat 'if exist build_artifact rmdir /S /Q build_artifact'
-                bat 'dotnet publish robot4-controller-api.csproj -c Release -o build_artifact --no-build'
+                bat 'dotnet publish robot4-controller-api.csproj -c Release -o build_artifact'
 
-                echo 'Showing generated build artifact files...'
+                echo 'Artifact files:'
                 bat 'dir build_artifact'
             }
         }
 
         stage('Test') {
             steps {
-                echo 'Running automated tests using xUnit...'
-                bat 'dotnet test'
+                echo 'Running tests on solution (NOT artifact)...'
+                
+            
+                bat 'dotnet test SIT31314.2C.sln --no-build'
             }
         }
 
         stage('Code Quality') {
             steps {
                 echo 'Running SonarCloud analysis...'
-                bat '''
-                dotnet sonarscanner begin /k:"c5982d24dd603f7f7be6aeeb728368697d8f6fd8" /o:"Sanyam4880" /d:sonar.login=%SONAR_TOKEN%
-                dotnet build robot4-controller-api.csproj
+
+                bat """
+                dotnet sonarscanner begin /k:"dc73124029ab9bc22fd8a3d32a219cdf9c72808e" /o:"YOUR_ORG_NAME" /d:sonar.login=%SONAR_TOKEN%
+                dotnet build SIT31314.2C.sln
                 dotnet sonarscanner end /d:sonar.login=%SONAR_TOKEN%
-                '''
+                """
             }
         }
-
     }
 
     post {
         success {
-            echo 'Build, Test and Code Quality completed successfully!'
+            echo 'Pipeline SUCCESS: Build + Test + Code Quality passed!'
         }
         failure {
-            echo 'Pipeline failed!'
+            echo 'Pipeline FAILED!'
         }
     }
 }
