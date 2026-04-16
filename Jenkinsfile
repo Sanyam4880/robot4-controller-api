@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment {
+        SONAR_TOKEN = credentials('sonarcloud-token')
+    }
+
     stages {
 
         stage('Build') {
@@ -27,11 +31,22 @@ pipeline {
             }
         }
 
+        stage('Code Quality') {
+            steps {
+                echo 'Running SonarCloud analysis...'
+                bat '''
+                dotnet sonarscanner begin /k:"c5982d24dd603f7f7be6aeeb728368697d8f6fd8" /o:"Sanyam4880" /d:sonar.login=%SONAR_TOKEN%
+                dotnet build robot4-controller-api.csproj
+                dotnet sonarscanner end /d:sonar.login=%SONAR_TOKEN%
+                '''
+            }
+        }
+
     }
 
     post {
         success {
-            echo 'Build and Test stages completed successfully!'
+            echo 'Build, Test and Code Quality completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
