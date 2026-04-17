@@ -31,15 +31,15 @@ pipeline {
         }
 
         stage('Code Quality') {
-            steps {
-                echo 'Running SonarCloud analysis...'
-                bat """
-                dotnet sonarscanner begin /k:"c5982d24dd603f7f7be6aeeb728368697d8f6fd8" /o:"Sanyam4880" /d:sonar.login=%SONAR_TOKEN%
-                dotnet build SIT3314.2C.sln
-                dotnet sonarscanner end /d:sonar.login=%SONAR_TOKEN%
-                """
-            }
-        }
+    steps {
+        echo 'Running SonarCloud analysis...'
+        bat """
+        C:\\sonar-scanner\\dotnet-sonarscanner begin /o:"sanyam4880" /k:"Sanyam4880_robot4-controller-api" /d:sonar.token=%SONAR_TOKEN%
+        dotnet build SIT3314.2C.sln
+        C:\\sonar-scanner\\dotnet-sonarscanner end /d:sonar.token=%SONAR_TOKEN%
+        """
+    }
+}
     }
 
     post {
