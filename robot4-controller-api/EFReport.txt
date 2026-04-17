@@ -1,0 +1,73 @@
+C# Method GetRobotCommands:
+Executed DbCommand (103ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT r.id, r.createddate, r.description, r.ismovecommand, r.modifieddate, r.name
+FROM robotcommand AS r
+ORDER BY r.id
+
+C# Method GetRobotCommandById:
+Executed DbCommand (50ms) [Parameters=[@__id_0='1'], CommandType='Text', CommandTimeout='30']
+SELECT r.id, r.createddate, r.description, r.ismovecommand, r.modifieddate, r.name
+FROM robotcommand AS r
+WHERE r.id = @__id_0
+LIMIT 1
+
+C# Method InsertRobotCommand:
+Executed DbCommand (73ms) [Parameters=[@p0='2026-03-17T22:34:30.8738776+05:30', @p1='Dance move', @p2='True', @p3='2026-03-17T22:34:30.8739737+05:30', @p4='DANCE' (Nullable = false)], CommandType='Text', CommandTimeout='30']
+INSERT INTO robotcommand (createddate, description, ismovecommand, modifieddate, name)
+VALUES (@p0, @p1, @p2, @p3, @p4)
+RETURNING id;
+
+C# Method UpdateRobotCommand:
+SQL log not captured in the provided console output.
+
+C# Method DeleteRobotCommand:
+Executed DbCommand (9ms) [Parameters=[@__id_0='5'], CommandType='Text', CommandTimeout='30']
+SELECT r.id, r.createddate, r.description, r.ismovecommand, r.modifieddate, r.name
+FROM robotcommand AS r
+WHERE r.id = @__id_0
+LIMIT 1
+
+Executed DbCommand (16ms) [Parameters=[@p0='5'], CommandType='Text', CommandTimeout='30']
+DELETE FROM robotcommand
+WHERE id = @p0;
+
+C# Method GetMaps:
+Executed DbCommand (9ms) [Parameters=[], CommandType='Text', CommandTimeout='30']
+SELECT m.id, m.columns, m.createddate, m.description, m.modifieddate, m.name, m.rows
+FROM map AS m
+ORDER BY m.id
+
+C# Method GetMapById:
+Executed DbCommand (5ms) [Parameters=[@__id_0='1'], CommandType='Text', CommandTimeout='30']
+SELECT m.id, m.columns, m.createddate, m.description, m.modifieddate, m.name, m.rows
+FROM map AS m
+WHERE m.id = @__id_0
+LIMIT 1
+
+C# Method InsertMap:
+Executed DbCommand (14ms) [Parameters=[@p0='10', @p1='2026-03-17T22:40:49.4069850+05:30', @p2='Ground floor', @p3='2026-03-17T22:40:49.4070809+05:30', @p4='Mall Map' (Nullable = false), @p5='12'], CommandType='Text', CommandTimeout='30']
+INSERT INTO map (columns, createddate, description, modifieddate, name, rows)
+VALUES (@p0, @p1, @p2, @p3, @p4, @p5)
+RETURNING id;
+
+C# Method UpdateMap:
+Executed DbCommand (5ms) [Parameters=[@__map_Id_0='1'], CommandType='Text', CommandTimeout='30']
+SELECT m.id, m.columns, m.createddate, m.description, m.modifieddate, m.name, m.rows
+FROM map AS m
+WHERE m.id = @__map_Id_0
+LIMIT 1
+
+Executed DbCommand (11ms) [Parameters=[@p5='1', @p0='15', @p1='Updated map', @p2='2026-03-17T22:43:01.1004214+05:30', @p3='Updated Map' (Nullable = false), @p4='20'], CommandType='Text', CommandTimeout='30']
+UPDATE map SET columns = @p0, description = @p1, modifieddate = @p2, name = @p3, rows = @p4
+WHERE id = @p5;
+
+C# Method DeleteMap:
+Executed DbCommand (3ms) [Parameters=[@__id_0='2'], CommandType='Text', CommandTimeout='30']
+SELECT m.id, m.columns, m.createddate, m.description, m.modifieddate, m.name, m.rows
+FROM map AS m
+WHERE m.id = @__id_0
+LIMIT 1
+
+Executed DbCommand (5ms) [Parameters=[@p0='2'], CommandType='Text', CommandTimeout='30']
+DELETE FROM map
+WHERE id = @p0;
