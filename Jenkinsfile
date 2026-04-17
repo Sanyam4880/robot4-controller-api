@@ -31,15 +31,13 @@ pipeline {
             }
         }
 
-    
         stage('Security') {
-    steps {
-        echo 'Running Trivy security scan...'
-        bat '''
-        trivy fs --severity HIGH,CRITICAL --exit-code 1 .
-        '''
-    }
-}
+            steps {
+                echo 'Running Trivy security scan...'
+                bat '''
+                trivy fs --severity HIGH,CRITICAL --exit-code 1 .
+                '''
+            }
         }
 
         stage('Code Quality') {
