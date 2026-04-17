@@ -33,12 +33,13 @@ pipeline {
 
     
         stage('Security') {
-            steps {
-                echo 'Running NuGet vulnerability scan...'
-                bat '''
-                dotnet restore SIT3314.2C.sln -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1903;NU1904
-                '''
-            }
+    steps {
+        echo 'Running Trivy security scan...'
+        bat '''
+        trivy fs --severity HIGH,CRITICAL --exit-code 1 .
+        '''
+    }
+}
         }
 
         stage('Code Quality') {
