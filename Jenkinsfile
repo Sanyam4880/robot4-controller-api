@@ -6,6 +6,7 @@ pipeline {
     }
 
     stages {
+
         stage('Build') {
             steps {
                 echo 'Restoring dependencies...'
@@ -30,21 +31,31 @@ pipeline {
             }
         }
 
+    
+        stage('Security') {
+            steps {
+                echo 'Running NuGet vulnerability scan...'
+                bat '''
+                dotnet restore SIT3314.2C.sln -p:NuGetAudit=true -p:NuGetAuditMode=all -warnaserror:NU1903;NU1904
+                '''
+            }
+        }
+
         stage('Code Quality') {
-    steps {
-        echo 'Running SonarCloud analysis...'
-        bat """
-        C:\\sonar-scanner\\dotnet-sonarscanner begin /o:"sanyam4880" /k:"Sanyam4880_robot4-controller-api" /d:sonar.token=%SONAR_TOKEN%
-        dotnet build SIT3314.2C.sln
-        C:\\sonar-scanner\\dotnet-sonarscanner end /d:sonar.token=%SONAR_TOKEN%
-        """
-    }
-}
+            steps {
+                echo 'Running SonarCloud analysis...'
+                bat """
+                C:\\sonar-scanner\\dotnet-sonarscanner begin /o:"sanyam4880" /k:"Sanyam4880_robot4-controller-api" /d:sonar.token=%SONAR_TOKEN%
+                dotnet build SIT3314.2C.sln
+                C:\\sonar-scanner\\dotnet-sonarscanner end /d:sonar.token=%SONAR_TOKEN%
+                """
+            }
+        }
     }
 
     post {
         success {
-            echo 'Build, Test and Code Quality completed successfully!'
+            echo 'Build, Test, Security and Code Quality completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
