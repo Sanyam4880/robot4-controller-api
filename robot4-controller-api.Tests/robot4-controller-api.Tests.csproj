@@ -21,7 +21,11 @@
   </ItemGroup>
 
   <ItemGroup>
+<<<<<<< HEAD
     <ProjectReference Include="..\robot4-controller-api.csproj" />
+=======
+    <ProjectReference Include="..\robot4-controller-api\robot4-controller-api.csproj" />
+>>>>>>> dd8eaee (Final HD setup: fixed structure + tests + sonarcloud)
   </ItemGroup>
 
 </Project>
