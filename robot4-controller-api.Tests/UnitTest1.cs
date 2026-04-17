@@ -11,7 +11,7 @@ public class RobotCommandTests
         var command = new RobotCommand
         {
             Name = "MOVE",
-            IsMoveCommand = true
+            IsMoveCommand= true
         };
 
         Assert.True(command.IsMoveCommand);
