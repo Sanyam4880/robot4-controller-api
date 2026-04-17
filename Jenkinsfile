@@ -29,14 +29,18 @@ pipeline {
                 echo 'Running automated xUnit tests...'
                 bat 'dotnet test robot4-controller-api.Tests\\robot4-controller-api.Tests.csproj'
             }
-        }
+        }dotnet list package --vulnerable
+
+
+        
 stage('Security') {
     steps {
-        echo 'Running Trivy security scan...'
+        echo 'Running Trivy security scan (strict mode)...'
         bat '''
-        C:\\trivy\\trivy.exe fs --severity HIGH,CRITICAL --exit-code 0 --skip-dirs bin,obj .
+        C:\\trivy\\trivy.exe fs --severity HIGH,CRITICAL --exit-code 1 --skip-dirs bin,obj .
         '''
     }
+}
 }
 
 
