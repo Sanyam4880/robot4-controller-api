@@ -17,7 +17,7 @@ INSERT INTO robotcommand (createddate, description, ismovecommand, modifieddate,
 VALUES (@p0, @p1, @p2, @p3, @p4)
 RETURNING id;
 
-C# Method UpdateRobotCommand:
+C# Method UpdRobotCommand:
 SQL log not captured in the provided console output.
 
 C# Method DeleteRobotCommand:
