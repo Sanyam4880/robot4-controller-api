@@ -50,27 +50,26 @@ pipeline {
                 """
             }
         }
+
+        stage('Deploy') {
+            steps {
+                echo 'Deploying application using Docker...'
+
+                bat 'docker build -t robot4-api .'
+
+                bat 'docker stop robot4-container || exit 0'
+                bat 'docker rm robot4-container || exit 0'
+
+                bat 'docker run -d -p 8080:8080 --name robot4-container robot4-api'
+
+                echo 'Docker deployment completed!'
+            }
+        }
     }
-
-
-stage('Deploy') {
-    steps {
-        echo 'Deploying application using Docker...'
-
-        bat 'docker build -t robot4-api .'
-
-        bat 'docker stop robot4-container || exit 0'
-        bat 'docker rm robot4-container || exit 0'
-
-        bat 'docker run -d -p 8080:8080 --name robot4-container robot4-api'
-
-        echo 'Docker deployment completed!'
-    }
-}
 
     post {
         success {
-            echo 'Build, Test, Security and Code Quality completed successfully!'
+            echo 'Build, Test, Security, Code Quality and Deploy completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
