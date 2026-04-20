@@ -31,15 +31,6 @@ pipeline {
             }
         }
 
-        stage('Security') {
-            steps {
-                echo 'Running Trivy security scan...'
-                bat '''
-                C:\\trivy\\trivy.exe fs --severity HIGH,CRITICAL --exit-code 0 --skip-dirs bin,obj .
-                '''
-            }
-        }
-
         stage('Code Quality') {
             steps {
                 echo 'Running SonarCloud analysis...'
@@ -48,6 +39,15 @@ pipeline {
                 dotnet build SIT3314.2C.sln
                 C:\\sonar-scanner\\dotnet-sonarscanner end /d:sonar.token=%SONAR_TOKEN%
                 """
+            }
+        }
+
+        stage('Security') {
+            steps {
+                echo 'Running Trivy security scan...'
+                bat '''
+                C:\\trivy\\trivy.exe fs --severity HIGH,CRITICAL --exit-code 0 --skip-dirs bin,obj .
+                '''
             }
         }
 
@@ -69,7 +69,7 @@ pipeline {
 
     post {
         success {
-            echo 'Build, Test, Security, Code Quality and Deploy completed successfully!'
+            echo 'Build, Test, Code Quality, Security and Deploy completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
