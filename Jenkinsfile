@@ -50,26 +50,11 @@ pipeline {
                 '''
             }
         }
-
-        stage('Deploy') {
-            steps {
-                echo 'Deploying application using Docker...'
-
-                bat 'docker build -t robot4-api .'
-
-                bat 'docker stop robot4-container || exit 0'
-                bat 'docker rm robot4-container || exit 0'
-
-                bat 'docker run -d -p 8080:8080 --name robot4-container robot4-api'
-
-                echo 'Docker deployment completed!'
-            }
-        }
     }
 
     post {
         success {
-            echo 'Build, Test, Code Quality, Security and Deploy completed successfully!'
+            echo 'Build, Test, Code Quality and Security completed successfully!'
         }
         failure {
             echo 'Pipeline failed!'
